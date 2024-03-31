@@ -13,3 +13,24 @@ body {
   font-weight: 400;
   font-size: 16px;
 }
+
+.hand {
+  cursor: pointer;
+}
+
+.txt-lg {
+  display: inherit;
+}
+
+.txt-sm {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .txt-lg {
+    display: none;
+  }
+  .txt-sm {
+    display: inherit;
+  }
+}
