@@ -1,23 +1,32 @@
+import React, { useState } from "react";
 import classNames from "classnames";
 import { ALGORITHMS } from "./constants/cAlgorithms";
 import { IAlgorithm } from "./interfaces/general";
-import { useState } from "react";
 import AppLoader from "./components/AppLoader";
+import FCFSAlgorithm from "./components/FCFSAlgorithm";
 
-const App = () => {
-  const [progress, setProgress] = useState<boolean>(false);
-  const [selectedAlgorithm, setSelectAlgorithm] = useState<string>("");
-  const chooseAlgorithm = (algorithmName: string) => {
-    if (progress) return;
-    setProgress(true);
-    setSelectAlgorithm(algorithmName);
+const App: React.FC = () => {
+  const [isProgressing, setIsProgressing] = useState<boolean>(false);
+  const [hasData, setHasData] = useState<boolean>(true);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>(
+    "First Come First Serve"
+  );
+
+  const selectAlgorithm = (algorithmName: string) => {
+    if (isProgressing) return;
+
+    setIsProgressing(true);
+    setSelectedAlgorithm(algorithmName);
+
     setTimeout(() => {
-      setProgress(false);
-    }, 800);
+      setIsProgressing(false);
+      setHasData(true);
+    }, 200);
   };
+
   return (
-    <div className="h-100">
-      <ul className="list-group list-group-horizontal rounded-0">
+    <div className="app h-100">
+      <ul className="algorithm-list list-group list-group-horizontal rounded-0">
         {ALGORITHMS.map((algorithm: IAlgorithm, index: number) => (
           <li
             key={index}
@@ -26,18 +35,22 @@ const App = () => {
               "list-group-item list-group-item-action list-group-item-info hand text-center rounded-0",
               { active: algorithm.name === selectedAlgorithm }
             )}
-            onClick={() => chooseAlgorithm(algorithm.name)}
+            onClick={() => selectAlgorithm(algorithm.name)}
           >
-            <span className="txt-lg">{algorithm.name}</span>
-            <span className="txt-sm">{algorithm.shortName}</span>
+            <span className="txt-lg h-100">{algorithm.name}</span>
+            <span className="txt-sm h-100">{algorithm.shortName}</span>
           </li>
         ))}
       </ul>
-      <div className="d-flex align-items-center justify-content-center mt-5">
-        {progress && <AppLoader size="sm" />}
-        <span className="ms-2">
-          {progress ? "Loading Content..." : "Content"}
-        </span>
+
+      <div className="run-space d-flex align-items-center justify-content-center">
+        {isProgressing && <AppLoader size="sm" />}
+
+        <div className={classNames("w-100 h-100", { "d-none": !hasData })}>
+          <FCFSAlgorithm />
+        </div>
+
+        {!selectedAlgorithm && "Choose an algorithm to Start"}
       </div>
     </div>
   );

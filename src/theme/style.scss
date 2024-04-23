@@ -18,19 +18,47 @@ body {
   cursor: pointer;
 }
 
-.txt-lg {
-  display: inherit;
+.transition-slow {
+  transition: all 250ms ease-in-out;
 }
 
-.txt-sm {
-  display: none;
+//
+.app {
+  .algorithm-list {
+    height: 3rem;
+    li {
+      span {
+        align-items: center;
+        justify-content: center;
+      }
+      span.txt-lg {
+        display: flex;
+      }
+      span.txt-sm {
+        display: none;
+      }
+    }
+  }
+  .run-space {
+    height: calc(100% - 3rem);
+  }
 }
+//
 
 @media screen and (max-width: 1000px) {
-  .txt-lg {
-    display: none;
-  }
-  .txt-sm {
-    display: inherit;
+  ul.algorithm-list {
+    height: 3rem;
+    li {
+      span {
+        align-items: center;
+        justify-content: center;
+      }
+      span.txt-lg {
+        display: none;
+      }
+      span.txt-sm {
+        display: flex;
+      }
+    }
   }
 }
